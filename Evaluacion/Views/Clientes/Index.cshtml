@@ -1,0 +1,108 @@
+﻿@model IEnumerable<Evaluacion.Models.Cliente>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="PlaceHolderHere"></div>
+
+<h2>Clientes</h2>
+
+<button type="button" class="btn btn-primary" data-toggle="ajax-modal" data-target="#addCliente"
+        data-url="@Url.Action("Create")">
+    Nuevo
+</button>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Cli_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Razon_Social)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CUIT)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Direccion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Deshabilitado)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cli_ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Razon_Social)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CUIT)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Direccion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Deshabilitado)
+            </td>
+            <td>
+                <button type="button" class="btn btn-secondary" data-toggle="ajax-modal" data-target="#addCliente" data-url="@Url.Action("Edit/" + item.Cli_ID.ToString())">Editar</button>
+                <button type="button" class="btn btn-secondary" onclick="Delete(@item.Cli_ID)">Eliminar</button>
+                @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+<script type="text/javascript">
+    $(function () {
+        var PlaceHolderElement = $('#PlaceHolderHere');
+
+        $('button[data-toggle="ajax-modal"]').click(function (event) {
+            var url = $(this).data('url');
+            var decodedUrl = decodeURIComponent(url);
+
+            $.get(decodedUrl).done(function (data) {
+                PlaceHolderElement.html(data);
+                PlaceHolderElement.find('.modal').modal('show');
+            })
+        })
+
+        PlaceHolderElement.on('click', '[data-save="modal"]', function (event) {
+            var form = $(this).parents('.modal').find('form');
+            var actionUrl = form.attr('action');
+            var sendData = form.serialize();
+            $.post(actionUrl, sendData).done(function (data) {
+                PlaceHolderElement.find('.modal').modal('hide');
+                location.reload(true)
+            })
+        })
+
+    })
+
+
+    function Delete(id) {
+        debugger;
+        var actionUrl = 'Clientes/Delete/' + id;
+        var sendData = id;
+        $.post(actionUrl, sendData).done(function (data) {
+            debugger;
+            location.reload(true)
+        })
+    }
+
+
+
+</script>
+

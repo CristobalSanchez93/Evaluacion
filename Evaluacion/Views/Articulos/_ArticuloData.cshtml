@@ -1,0 +1,61 @@
+﻿@model Evaluacion.Models.Articulo
+
+<div class="modal face" id="addArticulo">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class=" modal-header">
+                <h4 class="modal-title" id="addArticuloLabel"> Articulo</h4>
+                <button type="button" class="close" data-mismiss="modal">
+                    <span>x</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("Create", "Articulos", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        @*<h4>Articulo</h4>
+                            <hr />*@
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div id="Id_Articulo" class="form-group" disabled>
+                            @Html.LabelFor(model => model.Art_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Art_ID, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                                @Html.ValidationMessageFor(model => model.Art_ID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Codigo, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Codigo, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Codigo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                    </div>
+                }
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" data-save="modal">Guardar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
